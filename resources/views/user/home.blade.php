@@ -5,5 +5,5 @@
 @endsection
 
 @section('main-content')
-    
+    @include('user.pages.contactus')
 @endsection

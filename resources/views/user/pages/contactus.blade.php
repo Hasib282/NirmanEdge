@@ -1,4 +1,4 @@
-<section class="contactus">
+<section class="contactus" id="contact-us">
     <div class="page-margin">
         <div class="contact-motivation">
             <p class="getin"> <span class="dash"></span> &nbsp; Get in Touch</p>
