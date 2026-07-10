@@ -111,6 +111,17 @@
                         B.Sc in Civil Engineering, FEC, DU
                     </div>
                 </div>
+                <div class="member">
+                    <div class="member-img">
+                        <img src="{{ asset('images/team/shahorior.png') }}" alt="">
+                    </div>
+                    <div class="member-details">
+                        <span class="member-name">Md Shahoriar kobir</span> <br>
+                        <span class="member-designation">Quality Control Expert</span><br><br>
+        
+                        B.Sc in Civil Engineering, FEC, DU
+                    </div>
+                </div>
             </div>
         </div>
 
