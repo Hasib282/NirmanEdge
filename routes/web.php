@@ -6,8 +6,10 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Middleware\ValidUser;
 
 // Auth Controllers
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\ResetPasswordController;
+
+use App\Http\Controllers\AdminBladeController;
+
 
 // link storage
 Route::get('/link', function(){
@@ -26,15 +28,19 @@ Route::view('/why-us', 'user.whyus')->name('why-us');
 
 // Don't Give Access to this routes if user is not valid
 Route::middleware(ValidUser::class)->group(function () {
-    // *************************************** Login Controller Routes Start *************************************** //
     Route::view('/login', 'admin.auth.login')->name('login');
     Route::view('/dashboard', 'layouts.admin.layout')->name('dashboard');
 
-
     // *************************************** Forget Password Controller Routes Start *************************************** //
-    Route::controller(ForgetPasswordController::class)->group(function () {
-        Route::get('/forgotpassword', 'ForgotPassord')->name('forgotPassword');;
-        Route::get('/resetpassword', 'ResetPassword')->name('resetPassword');;
-    });
+    Route::view('/forgotpassword', 'admin.auth.forgotPassword')->name('forgotpassword');
+    Route::get('/resetpassword', [ResetPasswordController::class, 'ResetPassword'])->name('resetPassword');
 
+    Route::prefix('admin')->group(function () {
+        Route::controller(AdminBladeController::class)->group(function(){
+            Route::get('/users', 'Users')->name('admin.users');
+            Route::get('/services', 'Services')->name('admin.services');
+            Route::get('/projects', 'Projects')->name('admin.projects');
+            Route::get('/settings', 'Settings')->name('admin.settings');
+        });
+    });
 });

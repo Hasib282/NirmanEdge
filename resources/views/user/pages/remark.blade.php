@@ -13,11 +13,11 @@
             </div>
 
             <div class="cta-right">
-                <a href="#projects" class="btn-primary">
+                <a href="{{ route('projects') }}" class="btn-primary">
                     View Projects
                 </a>
 
-                <a href="#contact" class="btn-secondary">
+                <a href="{{ route('contact-us') }}" class="btn-secondary">
                     Contact Us
                 </a>
             </div>

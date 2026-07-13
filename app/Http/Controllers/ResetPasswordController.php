@@ -5,20 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\PasswordResetEmail;
-use Illuminate\Support\Str;
 
-use App\Models\User_Info;
-
-class ForgetPasswordController extends Controller
+class ResetPasswordController extends Controller
 {
-    // Show Send Email Form
-    public function ForgotPassord(){
-        return view('admin.auth.forgotPassword');
-    } // End Method
-
-
     // Show Reset Form
     public function ResetPassword(Request $req){
         $token = $req->token;

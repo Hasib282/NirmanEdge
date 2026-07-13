@@ -179,7 +179,6 @@ $(document).ready(function () {
     //////////////////// -------------------- Logout Button Click Event Start -------------------- ////////////////////
     $(document).on('click', '#logout', function (e) {
         e.preventDefault();
-        console.log(apiUrl)
         $.ajax({
             url: `${apiUrl}/logout`,
             type: 'POST',

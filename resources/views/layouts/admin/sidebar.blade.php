@@ -1,11 +1,48 @@
 <aside id="mySidenav" class="sidenav">
+    <div class="user-details">
+        <div class="user-image">
+            {{-- <img src="{{ rtrim(env('API_URL'), '/api') }}/storage/{{ auth()->user()->image != null ? auth()->user()->image : (auth()->user()->gender == 'female' ? 'female.png' : 'male.png') }}" alt=""> --}}
+        </div>
+        <div class="user-name">
+            <strong>{{ auth()->user()->name }}</strong> <br>
+        </div>
+    </div>
+    <hr>
+
     <!-- Sidebar menue starts -->
     <ul class="sidebar-menu">
-        <li class="menu-item" data-url="">
-            <div class="menu-title {{ Request::segment(1) == 'admin' ? 'active':''}}">
+        <li class="menu-item" data-url="{{ route('admin.users') }}">
+            <div class="menu-title {{ Request::segment(2) == 'users' ? 'active':''}}">
                 <p>
-                    <i class="fa-solid fa-house"></i>
-                    User List
+                    <i class="fa-regular fa-user"></i>
+                    Users
+                </p>
+            </div>
+        </li>
+        
+        <li class="menu-item" data-url="{{ route('admin.services') }}">
+            <div class="menu-title {{ Request::segment(2) == 'services' ? 'active':''}}">
+                <p>
+                    <i class="fa-solid fa-hand-holding-medical"></i>
+                    Services
+                </p>
+            </div>
+        </li>
+        
+        <li class="menu-item" data-url="{{ route('admin.projects') }}">
+            <div class="menu-title {{ Request::segment(2) == 'projects' ? 'active':''}}">
+                <p>
+                    <i class="fa-solid fa-diagram-project"></i>
+                    Projects
+                </p>
+            </div>
+        </li>
+        
+        <li class="menu-item" data-url="{{ route('admin.settings') }}">
+            <div class="menu-title {{ Request::segment(2) == 'settings' ? 'active':''}}">
+                <p>
+                    <i class="fa-solid fa-gears"></i>
+                    Settings
                 </p>
             </div>
         </li>

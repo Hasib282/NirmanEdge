@@ -1,48 +1,85 @@
 //////////////////// -------------------- Show Data on Hard Reload -------------------- ////////////////////
 //////////////////// -------------------- Reload Content in Current Pagination Page After Successful Add/Update/Delete -------------------- ////////////////////
-function ReloadData(link, RenderData){
-    const queryParams = GetQueryParams();
-    const url = window.location.href.includes('/search')
-        ? `${apiUrl}/${link}/search`
-        : `${apiUrl}/${link}`;
+// function ReloadData(link, RenderData){
+//     const queryParams = GetQueryParams();
+//     const url = window.location.href.includes('/search')
+//         ? `${apiUrl}/${link}/search`
+//         : `${apiUrl}/${link}`;
         
-    LoadBackendData(url, RenderData, queryParams);
+//     LoadBackendData(url, RenderData, queryParams);
 
-    // CheckIfLastPage(function(isLastPage) {
-    //     if(isLastPage){
-    //         queryParams['page'] = GetCurrentPageFromURL() - 1;
-    //     }
-    //     if (window.location.href.includes('/search')) {
-    //         LoadBackendData(`${apiUrl}/${link}/search`, RenderData, queryParams);
-    //     }
-    //     else{
-    //         LoadBackendData(`${apiUrl}/${link}`, RenderData, queryParams); 
-    //     }
-    // });
-}; // End Method
+//     // CheckIfLastPage(function(isLastPage) {
+//     //     if(isLastPage){
+//     //         queryParams['page'] = GetCurrentPageFromURL() - 1;
+//     //     }
+//     //     if (window.location.href.includes('/search')) {
+//     //         LoadBackendData(`${apiUrl}/${link}/search`, RenderData, queryParams);
+//     //     }
+//     //     else{
+//     //         LoadBackendData(`${apiUrl}/${link}`, RenderData, queryParams); 
+//     //     }
+//     // });
+// }; // End Method
 
 
 
 
 
 //////////////////// -------------------- Show Data Ajax Part Start -------------------- ////////////////////
-function LoadBackendData(url, RenderData, queryParams) {
+// function LoadBackendData(url, RenderData, queryParams) {
+//     $.ajax({
+//         url: url,
+//         type: 'GET',
+//         data: queryParams,
+//         success: function(response) {
+//             if (response.status) {
+//                 UpdateUrl(url, queryParams);
+
+//                 if (response.redirect) {
+//                     window.location.href = response.redirect;
+//                     return;
+//                 }
+                
+//                 let startIndex = (response.data.current_page - 1) * response.data.per_page;
+//                 RenderData(response.data.data ? response.data.data : response.data, startIndex, response);
+//                 response.data.path ? RenderPagination(response.data) : null;
+//             }
+//             else{
+//                 toastr.error(response.message, "Wrong Command!");
+//             }
+//         }
+//     });
+// }; // End Method
+
+
+
+
+
+function ReloadData(url, RenderData, queryParams = {}) {
     $.ajax({
-        url: url,
+        url: `${apiUrl}/${url}`,
         type: 'GET',
         data: queryParams,
+        beforeSend: function () {
+            $('.load-data tbody').html(`
+                <tr>
+                    <td colspan="15">
+                        <div class="loader-container">
+                            <div class="spinner"></div>
+                            <div class="loader-text">Loading, please wait...</div>
+                        </div>
+                    </td>
+                </tr>
+            `);
+        },
         success: function(response) {
             if (response.status) {
-                UpdateUrl(url, queryParams);
-
                 if (response.redirect) {
                     window.location.href = response.redirect;
                     return;
                 }
                 
-                let startIndex = (response.data.current_page - 1) * response.data.per_page;
-                RenderData(response.data.data ? response.data.data : response.data, startIndex, response);
-                response.data.path ? RenderPagination(response.data) : null;
+                RenderData(response);
             }
             else{
                 toastr.error(response.message, "Wrong Command!");
@@ -57,11 +94,17 @@ function LoadBackendData(url, RenderData, queryParams) {
 
 // Add Button Click Functionality
 function AddModalFunctionality(focusVariable, AddClickEvent){
-    $(document).off('click', '.add').on('click', '.add', function (e) {
+    $(document).off('click', '#add').on('click', '#add', function (e) {
         e.preventDefault();
+        let modalId = $(this).data('modal-id');
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'block';
+        }
+        
         $('#AddForm')[0].reset();
         $('#previewImage').attr('src', "/images/male.png");
-        
+
         $(focusVariable).focus();
 
         if(typeof AddClickEvent === 'function'){
@@ -75,7 +118,7 @@ function AddModalFunctionality(focusVariable, AddClickEvent){
 
 
 /////////////// ------------------ Insert Ajax Part Start ---------------- /////////////////////////////
-function InsertAjax(link, RenderData, AddData = {}, AddSuccessEvent, method ="POST") {
+function InsertAjax(link, AddData = {}, AddSuccessEvent, method ="POST") {
     $(document).off('submit', '#AddForm').on('submit', '#AddForm', function (e) {
         e.preventDefault();
         let formData = new FormData(this);
@@ -109,7 +152,12 @@ function InsertAjax(link, RenderData, AddData = {}, AddSuccessEvent, method ="PO
                     }
                     $('#previewImage').attr('src', "/images/male.png");
 
-                    ReloadData(link, RenderData);
+                    // ReloadData(link, RenderData);
+                    
+                    if(res.data){
+                        tableInstance.addRow(res.data);
+                    }
+
                     toastr.success(res.message, 'Added!');
                 }
             },
@@ -125,7 +173,30 @@ function InsertAjax(link, RenderData, AddData = {}, AddSuccessEvent, method ="PO
 
 
 ///////////// ------------------ Edit Location Ajax Part Start ---------------- /////////////////////////////
-function EditAjax(link, AddSuccessEvent, AddClickEvent=undefined) {
+function EditAjax(AddEvent=undefined, Id = 'id') {
+    $(document).off('click', '#edit').on('click', '#edit', function () {
+        let modalId = $(this).data('modal-id');
+        var modal = document.getElementById(modalId);
+        if (modal) {
+            modal.style.display = 'block';
+        }
+
+        let id = $(this).data('id');
+        // let status = $('#status').val();
+        
+        let data = tableInstance.filteredData.find(row => row[Id] == id);
+
+        if(typeof AddEvent === 'function'){
+            AddEvent(data);
+        }
+    });
+}
+
+
+
+
+// Edit By Ajax Call
+function EditAjaxCall(link, AddSuccessEvent, AddClickEvent=undefined) {
     $(document).off('click', '#edit').on('click', '#edit', function () {
         let modalId = $(this).data('modal-id');
         let id = $(this).data('id');
@@ -156,7 +227,7 @@ function EditAjax(link, AddSuccessEvent, AddClickEvent=undefined) {
 
 
 /////////////// ------------------ Update Ajax Part Start ---------------- /////////////////////////////
-function UpdateAjax(link, RenderData, AditionalData = {}, AdditionalEvent) {
+function UpdateAjax(link, AditionalData = {}, AdditionalEvent) {
     $(document).off('submit', '#EditForm').on('submit', '#EditForm', function (e) {
         e.preventDefault();
         let formData = new FormData(this);
@@ -183,13 +254,16 @@ function UpdateAjax(link, RenderData, AditionalData = {}, AdditionalEvent) {
             success: function (res) {
                 if (res.status) {
                     $('#editModal').hide();
+
                     $('#EditForm')[0].reset();
 
                     if(typeof AdditionalEvent === 'function'){
                         AdditionalEvent();
                     }
                     
-                    ReloadData(link, RenderData);
+                    // ReloadData(link, RenderData);
+                    tableInstance.updateRow(formData.get('id'), res.updatedData);
+
                     toastr.success(res.message, 'Updated!');
                 }
             },
@@ -205,7 +279,7 @@ function UpdateAjax(link, RenderData, AditionalData = {}, AdditionalEvent) {
 
 
 //////////////////// -------------------- Delete Ajax Part Start -------------------- ////////////////////
-function DeleteAjax(link, RenderData) {
+function DeleteAjax(link) {
     $(document).off('click', '#confirm').on('click', '#confirm', function (e) {
         e.preventDefault();
         let id = $(this).attr('data-id');
@@ -217,13 +291,43 @@ function DeleteAjax(link, RenderData) {
             data:{ id, status },
             success: function (res) {
                 if (res.status) {
-                    ReloadData(link, RenderData);
+                    tableInstance.deleteRow(id);
+
                     $('#deleteModal').hide();
+
                     toastr.success(res.message, 'Deleted!');
                 }
             },
             complete: function () {
                 $('#confirm').prop('disabled', false);
+            },
+        });
+    });
+}; // End Method
+
+
+
+//////////////////// -------------------- Delete Status Ajax Part Start -------------------- ////////////////////
+function DeleteStatusAjax(link) {
+    $(document).off('click', '#confirm_status').on('click', '#confirm_status', function (e) {
+        e.preventDefault();
+        let id = $(this).attr('data-id');
+        $('#confirm_status').prop('disabled', true);
+        $.ajax({
+            url: `${apiUrl}/${link}/delete`,
+            method: 'DELETE',
+            data:{ id },
+            success: function (res) {
+                if (res.status) {
+                    tableInstance.updateRow(id, res.updatedData);
+
+                    $('#deleteStatusModal').hide();
+
+                    toastr.success(res.message, 'Deleted!');
+                }
+            },
+            complete: function () {
+                $('#confirm_status').prop('disabled', false);
             },
         });
     });
@@ -268,7 +372,7 @@ function getTransactionGrid(tranId) {
         data: { tranId, status },
         success: function (res) {
             if(res.status){
-                let transactions = res.transaction;
+                let transactions = res.data;
 
                 // Retrieve existing productGrids from local storage
                 let productGrids = JSON.parse(localStorage.getItem('transactionData')) || [];
@@ -315,7 +419,7 @@ function DisplayTransactionGrid() {
         let dynamicColumn = '';
 
         // Set the value of dynamicColumn based on conditions
-        if (segment1 === 'transaction') {
+        if (segment1 === 'transaction' || segment1 === 'hospital' || segment3 === 'return' || segment1 === 'hotel') {
             dynamicColumn = `<td>${products.amount}</td>`;
         } else if (segment3 === 'purchase') {
             dynamicColumn = `<td>${products.cp}</td>`;
@@ -331,6 +435,7 @@ function DisplayTransactionGrid() {
                 <td>${products.quantity}</td>
                 ${dynamicColumn}
                 <td>${products.totAmount}</td>
+                ${segment3 === 'return' ? '<td>'+ products.pbatch + '</td>' : ""}
                 <td><div class="center"><button class="remove" data-index="${index}"><i class="fas fa-trash"></i></button></div></td>
             </tr>`
         );
@@ -468,7 +573,7 @@ function displayErrors(errors, isEdit = false) {
 
 
 /////////////// ------------------ Insert or Update Product Details Into Local Storage Ajax Part Start ---------------- /////////////////////////////
-function InsertLocalStorage(isIssue = false) {
+function InsertLocalStorage(isIssue = false, isReturn = false) {
     $(document).off('click', '#InsertTransaction, #UpdateTransaction').on('click', '#InsertTransaction, #UpdateTransaction', function (e) {
         e.preventDefault();
 
@@ -477,6 +582,12 @@ function InsertLocalStorage(isIssue = false) {
         if (!validateFormData(isUpdate, isIssue)) {
             return;
         }
+
+        
+        
+        
+        // let mrp = $('#price').val();
+        
 
         let product = isUpdate ? ($('#updateProduct').attr('data-id') || $('#updateHead').attr('data-id')) :($('#product').attr('data-id') || $('#head').attr('data-id'));
         let name = isUpdate ? ($('#updateProduct').val() || $('#updateHead').val()) : ($('#product').val() || $('#head').val());
@@ -491,6 +602,8 @@ function InsertLocalStorage(isIssue = false) {
         let expiry = isUpdate ? $('#updateExpiry').val() : $('#expiry').val();
         let amount = isUpdate ? $('#updateAmount').val() : $('#amount').val();
         let batch = isUpdate ? $('#updatePbatch').attr('data-id') : $('#pbatch').attr('data-id');
+        let pbatch = isUpdate ? $('#updateProduct').attr('data-batch') : $('#product').attr('data-batch');
+
         
         const path = window.location.pathname;
         const pathSegments = path.split("/");
@@ -515,10 +628,8 @@ function InsertLocalStorage(isIssue = false) {
             expiry,
             amount,
             batch,
+            pbatch,
         };
-
-        // console.log(batch);
-        
         
 
         // Retrieve existing productIssue from local storage
@@ -543,8 +654,9 @@ function InsertLocalStorage(isIssue = false) {
         isUpdate ? $('#updateQuantity').val('1') :$('#quantity').val('1');
         isUpdate ? $('#updateMrp').val('') :$('#mrp').val('');
         isUpdate ? $('#updateTotAmount').val('') :$('#totAmount').val('');
-        isUpdate ? $("#updateHead").focus() :$("#head").focus();
-        isUpdate ? $("#updateProduct").focus() :$("#product").focus();
+        !isReturn ? isUpdate ? $("#updateHead").focus() :$("#head").focus() : "";
+        !isReturn ? isUpdate ? $("#updateProduct").focus() :$("#product").focus() : "";
+        isReturn ? isUpdate ? $("#batch-details-list tbody tr").focus() :$("#batch-details-list tbody tr").focus() : "";
 
         isUpdate ? $('#updateUnit').val('') : $('#unit').val('');
         isUpdate ? $('#updateUnit').removeAttr('data-id') : $('#unit').removeAttr('data-id');
@@ -564,7 +676,7 @@ function InsertLocalStorage(isIssue = false) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function InsertTransaction(url, RenderData, method, type, AddSuccessEvent) {
+function InsertTransaction(url, method, type, AddSuccessEvent) {
     $(document).off('click', '#InsertMain').on('click', '#InsertMain', function (e) {
         e.preventDefault();
         let products = localStorage.getItem('transactionData');
@@ -577,20 +689,24 @@ function InsertTransaction(url, RenderData, method, type, AddSuccessEvent) {
 
         let withs = $('#user').attr('data-with');
         let user = $('#user').attr('data-id');
+        let ptn_id = $('#patient').attr('data-id');
+        let booking_id = $('#hotel-booking').val();
+        let guest_id = $('#guest').attr('data-id');
         let name = $('#name').val();
         let phone = $('#phone').val();
         let address = $('#address').val();
-        let store = $('#store').attr('data-id');
+        let store = $('#store').val();
         let amountRP = $('#amountRP').val();
         let discount = $('#totalDiscount').val();
         let netAmount = $('#netAmount').val();
         let advance = $('#advance').val();
         let balance = $('#balance').val();
         let company = $('#company').attr('data-id');
+        let batch = $('#batch').val();
         $.ajax({
             url: `${apiUrl}/${url}`,
             method: 'POST',
-            data: { products:JSON.stringify(products), name, phone, address, type, method, withs, user, store, amountRP, discount, netAmount, advance, balance, company },
+            data: { products:JSON.stringify(products), booking_id, name, phone, address, type, method, withs, user, ptn_id, guest_id, store, amountRP, discount, netAmount, advance, balance, company, batch },
             success: function (res) {
                 if (res.status) {
                     $('#AddForm')[0].reset();
@@ -599,7 +715,8 @@ function InsertTransaction(url, RenderData, method, type, AddSuccessEvent) {
                         AddSuccessEvent();
                     }
 
-                    ReloadData(url, RenderData);
+                    localStorage.removeItem('transactionData');
+                    tableInstance.addRow(res.data);
                     toastr.success(res.message, 'Added!');
                 }
             }
@@ -609,7 +726,7 @@ function InsertTransaction(url, RenderData, method, type, AddSuccessEvent) {
 
 
 
-function UpdateTransaction(url, RenderData, method, type, AddSuccessEvent = undefined) {
+function UpdateTransaction(url, method, type, AddSuccessEvent = undefined) {
     $(document).off('click', '#UpdateMain').on('click', '#UpdateMain', function (e) {
         e.preventDefault();
         let products = localStorage.getItem('transactionData');
@@ -621,6 +738,7 @@ function UpdateTransaction(url, RenderData, method, type, AddSuccessEvent = unde
         products = JSON.parse(products);
 
         let tranid = $('#updateTranId').val();
+        let booking_id = $('#updateHotel-booking').val();
         let id = $('#id').val();
         let amountRP = $('#updateAmountRP').val();
         let totalDiscount = $('#updateTotalDiscount').val();
@@ -634,7 +752,7 @@ function UpdateTransaction(url, RenderData, method, type, AddSuccessEvent = unde
         $.ajax({
             url: `${apiUrl}/${url}`,
             method: 'PUT',
-            data: { products:JSON.stringify(products), name, phone, address, id, tranid, type, method, amountRP, totalDiscount, netAmount, advance, balance, status },
+            data: { products:JSON.stringify(products), booking_id, name, phone, address, id, tranid, type, method, amountRP, totalDiscount, netAmount, advance, balance, status },
             beforeSend:function() {
                 $(document).find('span.error').text('');  
             },
@@ -647,13 +765,50 @@ function UpdateTransaction(url, RenderData, method, type, AddSuccessEvent = unde
                     }
 
                     localStorage.removeItem('transactionData');
-                    ReloadData(url, RenderData);
+                    tableInstance.updateRow(document.getElementById('id').value, res.updatedData);
                     toastr.success(res.message, 'Updated!');
                 }
             }
         });
     });
 }
+
+
+
+
+
+//////////////////// -------------------- Search By Date Ajax Part Start -------------------- ////////////////////
+function SearchByDateAjax(url, RenderData, data={}){
+    $(document).off('change', '#startDate, #endDate').on('change', '#startDate, #endDate', function(e){
+        e.preventDefault();
+        $('#startDate').length ? data.startDate = $('#startDate').val() : '';
+        $('#endDate').length ? data.endDate = $('#endDate').val() : '';
+        $('#status').length ? data.status = $('#status').val() : '';
+        $('#product-search').length ? data.search_id = $('#product-search').attr('data-id') : '';
+        ReloadData(url, RenderData, data);
+    });
+}; // End Method
+
+
+
+
+
+//////////////////// -------------------- Search By Select Input Change Ajax Part Start -------------------- ////////////////////
+function SearchBySelect(url, RenderData, id, data={}){
+    $(document).off('change', id).on('change', id, function(e){
+        e.preventDefault();
+        $('#startDate').length ? data.startDate = $('#startDate').val() : '';
+        $('#endDate').length ? data.endDate = $('#endDate').val() : '';
+        $(id).length ? data.status = $(id).val() : '';
+        ReloadData(url, RenderData, data);
+    });
+}; // End Method
+
+
+
+
+
+
 
 $(document).ready(function () {
     //////////////////// -------------------- Delete Ajax Part Start -------------------- ////////////////////
@@ -672,8 +827,28 @@ $(document).ready(function () {
     $(document).on('click', '#cancel', function (e) {
         e.preventDefault();
         $('#deleteModal').hide();
-    }); // End Cancle Button Event
+    }); // End Cancel Button Event
     //////////////////// -------------------- Delete Ajax Part End -------------------- ////////////////////
+    
+    
+    //////////////////// -------------------- Delete Status Ajax Part Start -------------------- ////////////////////
+    // Delete Status Button Functionality
+    $(document).on('click', '#delete_status', function (e) {
+        e.preventDefault();
+        $('#deleteStatusModal').show();
+        let id = $(this).data('id');
+        $('#confirm_status').attr('data-id',id);
+        $('#cancel_status').focus();
+    });  // End Delete Status Button Event
+
+
+
+    // Cancel Status Button Functionality
+    $(document).on('click', '#cancel_status', function (e) {
+        e.preventDefault();
+        $('#deleteStatusModal').hide();
+    }); // End Cancel Status Button Event
+    //////////////////// -------------------- Delete Status Ajax Part End -------------------- ////////////////////
 
 
 
@@ -688,6 +863,4 @@ $(document).ready(function () {
         DisplayTransactionGrid();
     })
     //////////////////// -------------------- Remove Product From Local Storage Part End -------------------- ////////////////////
-
-    
 });
