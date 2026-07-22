@@ -1,14 +1,11 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-// Middlewares
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Middleware\ValidUser;
-
-// Auth Controllers
-use App\Http\Controllers\ResetPasswordController;
-
 use App\Http\Controllers\AdminBladeController;
+use App\Http\Controllers\ResetPasswordController;
+use App\Http\Middleware\ValidUser;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontendController;
 
 
 // link storage
@@ -18,12 +15,15 @@ Route::get('/link', function(){
 
 
 // Frontend routes
-Route::view('/', 'user.home')->name('home');
-Route::view('/about', 'user.about')->name('about');
-Route::view('/contact-us', 'user.contactus')->name('contact-us');
-Route::view('/projects', 'user.projects')->name('projects');
-Route::view('/services', 'user.services')->name('services');
-Route::view('/why-us', 'user.whyus')->name('why-us');
+Route::controller(FrontendController::class)->group(function () {
+    Route::get('/about', 'About')->name('about');
+    Route::get('/contact-us', 'ContactUs')->name('contact-us');
+    Route::get('/', 'Home')->name('home');
+    Route::get('/project', 'Projects')->name('projects');
+    Route::get('/project/{slug}', 'ProjectDetails')->name('project.details');
+    Route::get('/services', 'Services')->name('services');
+    Route::get('/why-us', 'WhyUs')->name('why-us');
+});
 
 
 // Don't Give Access to this routes if user is not valid
@@ -32,7 +32,7 @@ Route::middleware(ValidUser::class)->group(function () {
     Route::view('/dashboard', 'layouts.admin.layout')->name('dashboard');
 
     // *************************************** Forget Password Controller Routes Start *************************************** //
-    Route::view('/forgotpassword', 'admin.auth.forgotPassword')->name('forgotpassword');
+    Route::view('/forgotpassword', 'admin.auth.forgotPassword')->name('forgotPassword');
     Route::get('/resetpassword', [ResetPasswordController::class, 'ResetPassword'])->name('resetPassword');
 
     Route::prefix('admin')->group(function () {

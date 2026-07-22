@@ -5,5 +5,6 @@
 @endsection
 
 @section('main-content')
-    
+    @include('user.pages.projects')
 @endsection
+

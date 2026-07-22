@@ -236,7 +236,11 @@ function UpdateAjax(link, AditionalData = {}, AdditionalEvent) {
             if (typeof value === 'object' && value.selector) {
                 let selectedValue = value.attribute ? $(value.selector).attr(value.attribute) : $(value.selector).val();
                 formData.append(key, selectedValue === undefined ? '' : selectedValue);
-            } else {
+            } 
+            else if(typeof value == 'function'){
+                formData.append(key, value());
+            }
+            else {
                 formData.append(key, value === undefined ? '' : value);
             }
         });

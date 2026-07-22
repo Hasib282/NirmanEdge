@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum', ApiValidUser::class])->group(function () {
         Route::post('/services', 'Insert');
         Route::put('/services', 'Update');
         Route::delete('/services', 'Delete');
+        Route::get('/services/get', 'GetData');
     });
     
     

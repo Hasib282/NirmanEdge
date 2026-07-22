@@ -15,17 +15,19 @@
                 <a>Advertisement</a>
             </nav>
             <nav>
-                <h6>Company</h6>
-                <a>About us</a>
-                <a>Contact</a>
-                <a>Jobs</a>
-                <a>Press kit</a>
-            </nav>
-            <nav>
-                <h6>Legal</h6>
-                <a>Terms of use</a>
-                <a>Privacy policy</a>
-                <a>Cookie policy</a>
+                <h6>Contact Info</h6>
+                <div class="con-info">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <p>8/3, Cumilla Heart, Pubali Chattar, Kandirpar, Cumilla</p>
+                </div>
+                <div class="con-info">
+                    <i class="fa-solid fa-phone"></i>
+                    <p>+88 01402 536 486, +88 01710 330 386</p>
+                </div>
+                <div class="con-info">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p>nirmanedge@gmail.com</p>
+                </div>
             </nav>
         </footer>
         

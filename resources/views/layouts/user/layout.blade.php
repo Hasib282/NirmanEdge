@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/user.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <!-- jQuery Link -->
+    <script src="{{ asset('js/jQuery-3.7.1.js') }}"></script>
+    <!--  Api Url  -->
+    <script>let apiUrl = "http://127.0.0.1:8000/api";</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
@@ -26,5 +30,7 @@
     </a>
 
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    @yield('script')
 </body>
 </html>

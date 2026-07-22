@@ -106,6 +106,8 @@
         <link rel="stylesheet" href="{{ asset('css/datatable.css') }}">
         {{-- brian2694/laravel-toastr css  --}}
         <link rel="stylesheet" href="{{ asset('css/toastr.min.css') }}">
+        {{-- itsjavi/fontawesome-iconpicker css --}}
+        <link rel="stylesheet" href="{{ asset('css/fontawesome-iconpicker.min.css') }}">
 
         <!-- add extra styles if needed -->
         @yield('style')
@@ -149,6 +151,8 @@
         <script src="{{ asset('js/modal.js') }}"></script> 
         {{-- brian2694/laravel-toastr js  --}}
         <script src="{{ asset('js/toastr.min.js') }}"></script>
+        {{-- itsjavi/fontawesome-iconpicker js --}}
+        <script src="{{ asset('js/fontawesome-iconpicker.min.js') }}"></script>
         
         @yield('script')
     </body>
