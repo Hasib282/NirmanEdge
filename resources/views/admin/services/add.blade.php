@@ -35,9 +35,6 @@
                         <span class="error" id="icon_error"></span>
                     </div>
                 </div>
-                <div class="c-12">
-                    <label for="isproject"><input type="checkbox" name="isproject" id="isproject" value="1"> isproject</label>
-                </div>
             </div>
 
             <div class="center">

@@ -10,7 +10,10 @@ use App\Http\Controllers\API\ForgetPasswordController;
 // Crud Controllers
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ServiceController;
+use App\Http\Controllers\API\ProjectTypeController;
 use App\Http\Controllers\API\ProjectController;
+use App\Http\Controllers\API\TeamCategoryController;
+use App\Http\Controllers\API\TeamController;
 use App\Http\Controllers\API\SettingsController;
 
 
@@ -39,7 +42,15 @@ Route::middleware(['auth:sanctum', ApiValidUser::class])->group(function () {
         Route::post('/services', 'Insert');
         Route::put('/services', 'Update');
         Route::delete('/services', 'Delete');
-        Route::get('/services/get', 'GetData');
+    });
+    
+    
+    Route::controller(ProjectTypeController::class)->group(function () {
+        Route::get('/projects/type', 'Show');
+        Route::post('/projects/type', 'Insert');
+        Route::put('/projects/type', 'Update');
+        Route::delete('/projects/type', 'Delete');
+        Route::get('/projects/type/get', 'GetData');
     });
     
     
@@ -50,10 +61,24 @@ Route::middleware(['auth:sanctum', ApiValidUser::class])->group(function () {
         Route::delete('/projects', 'Delete');
     });
     
+    
+    Route::controller(TeamCategoryController::class)->group(function () {
+        Route::get('/teams/category', 'Show');
+        Route::post('/teams/category', 'Insert');
+        Route::put('/teams/category', 'Update');
+        Route::delete('/teams/category', 'Delete');
+        Route::get('/teams/category/get', 'GetData');
+    });
+    
+    
+    Route::controller(TeamController::class)->group(function () {
+        Route::get('/teams', 'Show');
+        Route::post('/teams', 'Insert');
+        Route::put('/teams', 'Update');
+        Route::delete('/teams', 'Delete');
+    });
+    
     Route::controller(SettingsController::class)->group(function () {
-        Route::get('/Settings', 'Show');
-        Route::post('/Settings', 'Insert');
-        Route::put('/Settings', 'Update');
-        Route::delete('/Settings', 'Delete');
+        Route::post('/settings', 'Insert')->name('settings.store');
     });
 });

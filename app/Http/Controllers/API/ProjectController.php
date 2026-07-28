@@ -62,7 +62,7 @@ class ProjectController extends Controller
             "status" => $req->status,
         ]);
 
-        $data = Project::findOrFail($insert->id);
+        $data = Project::with('Type')->findOrFail($insert->id);
 
         return response()->json([
             'status'=> true,

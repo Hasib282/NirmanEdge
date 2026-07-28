@@ -17,14 +17,14 @@ return new class extends Migration
             $table->text('slug');
             $table->text('location');
             $table->string('client');
-            $table->unsignedBigInteger('type_id'); // services id
+            $table->unsignedBigInteger('type_id'); // ptype id
             $table->integer('year');
             $table->text('image');
             $table->text('details')->nullable();
             $table->tinyInteger('status');
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('services')
+            $table->foreign('type_id')->references('id')->on('ptypes')
                     ->onUpdate('cascade');
         });
     }

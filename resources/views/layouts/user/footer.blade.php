@@ -2,7 +2,7 @@
     <div class="page-margin">
         <footer class="footer-main">
             <aside>
-                <img src="{{ asset('images/nirman logo.png') }}" alt="logo">
+                <img src="{{ Storage::url($setting->logo) }}" alt="logo">
                 <p>
                 Where vision meets foundation. Infrastructure, engineered with conviction.
                 </p>
@@ -18,21 +18,21 @@
                 <h6>Contact Info</h6>
                 <div class="con-info">
                     <i class="fa-solid fa-location-dot"></i>
-                    <p>8/3, Cumilla Heart, Pubali Chattar, Kandirpar, Cumilla</p>
+                    <p>{{ $setting->address }}</p>
                 </div>
                 <div class="con-info">
                     <i class="fa-solid fa-phone"></i>
-                    <p>+88 01402 536 486, +88 01710 330 386</p>
+                    <p>{{ $setting->phone1 }} {{ $setting->phone2 ? ',' : '' }} {{ $setting->phone2 }}</p>
                 </div>
                 <div class="con-info">
                     <i class="fa-solid fa-envelope"></i>
-                    <p>nirmanedge@gmail.com</p>
+                    <p>{{ $setting->email1 }} {{ $setting->email2 ? ',' : '' }} {{ $setting->email2 }}</p>
                 </div>
             </nav>
         </footer>
         
         <footer class="footer-copy">
-            <p>Copyright &copy; {{ date('Y') }} - All right reserved by NirmanEdge Ltd</p>
+            <p>Copyright &copy; {{ date('Y') }} - All right reserved by <a href="{{env('APP_URL')}}">{{ $setting->name }}</a></p>
         </footer>
     </div>
 </section>

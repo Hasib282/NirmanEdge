@@ -39,7 +39,10 @@ Route::middleware(ValidUser::class)->group(function () {
         Route::controller(AdminBladeController::class)->group(function(){
             Route::get('/users', 'Users')->name('admin.users');
             Route::get('/services', 'Services')->name('admin.services');
+            Route::get('/projects/type', 'ProjectTypes')->name('admin.projects.type');
             Route::get('/projects', 'Projects')->name('admin.projects');
+            Route::get('/teams/category', 'TeamCategory')->name('admin.teams.category');
+            Route::get('/teams', 'Teams')->name('admin.teams');
             Route::get('/settings', 'Settings')->name('admin.settings');
         });
     });

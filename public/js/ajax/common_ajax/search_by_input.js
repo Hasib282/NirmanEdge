@@ -166,11 +166,11 @@ $(document).ready(function () {
     /////////////// ------------------ Search Company by name and add value to input ajax part start ---------------- /////////////////////////////
     // Company Input Search
     SearchByInput(
-        'services/get', 
+        'projects/type/get', 
 
         function ($input) {
             return {
-                service: $input.val(),
+                type: $input.val(),
             };
         }, 
 
@@ -184,11 +184,11 @@ $(document).ready(function () {
 
     // Update Company Input Search
     SearchByInput(
-        'services/get', 
+        'projects/type/get', 
 
         function ($input) {
             return {
-                service: $input.val(),
+                type: $input.val(),
             };
         }, 
 
@@ -197,6 +197,43 @@ $(document).ready(function () {
         '#update-project_type',
 
         '#update-project_type li',
+    );
+    
+    
+    /////////////// ------------------ Search Company by name and add value to input ajax part start ---------------- /////////////////////////////
+    // Company Input Search
+    SearchByInput(
+        'teams/category/get', 
+
+        function ($input) {
+            return {
+                category: $input.val(),
+            };
+        }, 
+
+        '#team_category', 
+
+        '#team_category-list',
+
+        '#team_category-list li',
+    );
+
+
+    // Update Company Input Search
+    SearchByInput(
+        'teams/category/get', 
+
+        function ($input) {
+            return {
+                category: $input.val(),
+            };
+        }, 
+
+        '#updateTeam_category', 
+
+        '#update-team_category',
+
+        '#update-team_category li',
     );
 
 });

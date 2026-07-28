@@ -28,14 +28,65 @@
                 </p>
             </div>
         </li>
-        
-        <li class="menu-item" data-url="{{ route('admin.projects') }}">
+
+        {{-- Projects Menu Start --}}
+        <li class="menu-item">
             <div class="menu-title {{ Request::segment(2) == 'projects' ? 'active':''}}">
                 <p>
                     <i class="fa-solid fa-diagram-project"></i>
                     Projects
                 </p>
+                <i class="fas fa-angle-right {{ Request::segment(2) == 'projects' ? 'rotate':''}}"></i>
             </div>
+            <ul class="sub-menu {{ Request::segment(2) == 'projects' ? 'show':''}}">
+                {{-- Project Type Menu --}}
+                <li class="sub-menu-item" data-url="{{ route('admin.projects.type') }}">
+                    <div class="menu-title {{ (Request::segment(2) == 'projects' && Request::segment(3) == 'type') ? 'active' : '' }}">
+                        <p>
+                            <i class="fa-solid fa-table-cells-large"></i>
+                            Project Type
+                        </p>
+                    </div>
+                </li>
+                <li class="sub-menu-item" data-url="{{ route('admin.projects') }}">
+                    <div class="menu-title {{ (Request::segment(2) == 'projects' && Request::segment(3) == '') ? 'active' : '' }}">
+                        <p>
+                            <i class="fa-solid fa-diagram-project"></i>
+                            Projects
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        
+        {{-- Teams Menu Start --}}
+        <li class="menu-item">
+            <div class="menu-title {{ Request::segment(2) == 'teams' ? 'active':''}}">
+                <p>
+                    <i class="fa-solid fa-users-gear"></i>
+                    Teams
+                </p>
+                <i class="fas fa-angle-right {{ Request::segment(2) == 'teams' ? 'rotate':''}}"></i>
+            </div>
+            <ul class="sub-menu {{ Request::segment(2) == 'teams' ? 'show':''}}">
+                {{-- Teams Category Menu --}}
+                <li class="sub-menu-item" data-url="{{ route('admin.teams.category') }}">
+                    <div class="menu-title {{ (Request::segment(2) == 'teams' && Request::segment(3) == 'category') ? 'active' : '' }}">
+                        <p>
+                            <i class="fa-solid fa-table-cells-large"></i>
+                            Teams Category
+                        </p>
+                    </div>
+                </li>
+                <li class="sub-menu-item" data-url="{{ route('admin.teams') }}">
+                    <div class="menu-title {{ (Request::segment(2) == 'teams' && Request::segment(3) == '') ? 'active' : '' }}">
+                        <p>
+                            <i class="fa-solid fa-users-gear"></i>
+                            Team Members
+                        </p>
+                    </div>
+                </li>
+            </ul>
         </li>
         
         <li class="menu-item" data-url="{{ route('admin.settings') }}">
@@ -47,7 +98,7 @@
             </div>
         </li>
 
-        <li class="menu-item">
+        {{-- <li class="menu-item">
             <div class="menu-title {{ Request::segment(1) == 'admin' ? 'active':''}}">
                 <p>
                     <i class="fa-solid fa-house"></i>
@@ -56,7 +107,7 @@
                 <i class="fas fa-angle-right {{ Request::segment(1) == 'admin' ? 'rotate':''}}"></i>
             </div>
             <ul class="sub-menu {{ Request::segment(1) == 'admin' ? 'show':''}}">
-                {{-- Company Menu --}}
+                
                 <li class="sub-menu-item">
                     <div class="menu-title {{ (Request::segment(1) == 'admin' && (Request::segment(2) == 'companytype' || Request::segment(2) == 'companies')) ? 'active' : '' }}">
                         <p>
@@ -86,7 +137,7 @@
                     </ul>
                 </li>
 
-                {{-- Users Menu --}}
+                
                 <li class="sub-menu-item">
                     <div class="menu-title {{ (Request::segment(1) == 'admin' && Request::segment(2) == 'users') ? 'active':''}}">
                         <p>
@@ -125,6 +176,6 @@
                     </ul>
                 </li>
             </ul>
-        </li>
+        </li> --}}
     </ul>
 </aside>

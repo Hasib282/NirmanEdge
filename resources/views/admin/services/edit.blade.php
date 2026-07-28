@@ -39,9 +39,6 @@
                         <span class="error" id="update_icon_error"></span>
                     </div>
                 </div>
-                <div class="c-12">
-                    <label for="updateIsproject"><input type="checkbox" name="isproject" id="updateIsproject" value="1"> isproject</label>
-                </div>
             </div>
             <div class="center">
                 <button type="submit" class="btn-blue" id="Update">Update</button>

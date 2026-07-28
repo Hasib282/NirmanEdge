@@ -14,21 +14,19 @@
             <div class="office-address">
                 <img src="{{ asset('images/skyline.png') }}" alt="office">
                 <h4>Office Address</h4>
-                <p>8/3, Cumilla Heart, Pubali Chattar, Kandirpar, Cumilla</p>
+                <p>{{ $setting->address }}</p>
             </div>
 
             <div class="office-contact">
                 <img src="{{ asset('images/phone.png') }}" alt="phone">
                 <h4>Call Us</h4>
-                <p>+88 01402 536 486</p>
-                <p>+88 01710 330 386</p>
-                <p>+88 01521 301 685</p>
+                <p>{{ $setting->phone1 }} <br> {{ $setting->phone2 }}</p>
             </div>
 
             <div class="office-mail">
                 <img src="{{ asset('images/mail-2.png') }}" alt="mail">
                 <h4>Email Us</h4>
-                <p>nirmanedge@gmail.com</p>
+                <p>{{ $setting->email1 }} <br> {{ $setting->email2 }}</p>
             </div>
         </div>
         <div>

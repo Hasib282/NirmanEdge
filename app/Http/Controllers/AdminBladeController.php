@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Setting;
+
 class AdminBladeController extends Controller
 {
     /////////////////////////// --------------- Users Methods start---------- //////////////////////////
@@ -32,6 +34,19 @@ class AdminBladeController extends Controller
     } // End Method
     
     
+    /////////////////////////// --------------- Project Types Methods start---------- //////////////////////////
+    public function ProjectTypes(Request $req){
+        $name = "Project Type";
+        $js = "admin/project_type";
+        if ($req->ajax()) {
+            return view('admin.single_input.ajax', compact('name', 'js'));
+        }
+        else{
+            return view('admin.single_input.main', compact('name', 'js'));
+        }
+    } // End Method
+    
+    
     /////////////////////////// --------------- Projects Methods start---------- //////////////////////////
     public function Projects(Request $req){
         $name = "Project";
@@ -45,15 +60,42 @@ class AdminBladeController extends Controller
     } // End Method
     
     
-    /////////////////////////// --------------- Settings Methods start---------- //////////////////////////
-    public function Settings(Request $req){
-        $name = "Settings";
-        $js = "setting";
+    /////////////////////////// --------------- Team Category Methods start---------- //////////////////////////
+    public function TeamCategory(Request $req){
+        $name = "Team Category";
+        $js = "admin/team_category";
         if ($req->ajax()) {
-            return view('admin.settings.ajax', compact('name', 'js'));
+            return view('admin.single_input.ajax', compact('name', 'js'));
         }
         else{
-            return view('admin.settings.main', compact('name', 'js'));
+            return view('admin.single_input.main', compact('name', 'js'));
+        }
+    } // End Method
+    
+    
+    /////////////////////////// --------------- Teams Methods start---------- //////////////////////////
+    public function Teams(Request $req){
+        $name = "Team Member";
+        $js = "admin/teams";
+        if ($req->ajax()) {
+            return view('admin.teams.ajax', compact('name', 'js'));
+        }
+        else{
+            return view('admin.teams.main', compact('name', 'js'));
+        }
+    } // End Method
+    
+    
+    /////////////////////////// --------------- Settings Methods start---------- //////////////////////////
+    public function Settings(Request $req){
+        $data = Setting::findOrFail(1);
+        $name = "General Settings";
+        $js = "setting";
+        if ($req->ajax()) {
+            return view('admin.settings.ajax', compact('name', 'js', 'data'));
+        }
+        else{
+            return view('admin.settings.main', compact('name', 'js', 'data'));
         }
     } // End Method
 }

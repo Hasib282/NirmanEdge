@@ -13,6 +13,6 @@ class Project extends Model
     ];
 
     public function Type(){
-        return $this->belongsTo(Service::class,'type_id','id');
+        return $this->belongsTo(Ptype::class,'type_id','id');
     }
 }

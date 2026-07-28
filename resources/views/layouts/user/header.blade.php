@@ -1,7 +1,7 @@
 <header>
     <div class="page-margin head">
         <div class="logo">
-            <a href="{{ route('home') }}"><img src="{{ asset('images/nirman logo.png') }}" alt="logo"></a>
+            <a href="{{ route('home') }}"><img src="{{ Storage::url($setting->logo) }}" alt="logo"></a>
         </div>
         <nav>
             <ul>

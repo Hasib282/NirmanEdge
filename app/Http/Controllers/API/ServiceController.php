@@ -33,7 +33,6 @@ class ServiceController extends Controller
             "title" => $req->title,
             "details" => $req->details,
             "icon" => $req->icon,
-            "isproject" => $req->isproject ?? 0,
         ]);
 
         $data = Service::findOrFail($insert->id);
@@ -62,7 +61,6 @@ class ServiceController extends Controller
             "title" => $req->title,
             "details" => $req->details,
             "icon" => $req->icon,
-            "isproject" => $req->isproject ?? 0,
         ]);
 
         $updatedData = Service::findOrFail($req->id);

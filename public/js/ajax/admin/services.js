@@ -59,7 +59,6 @@ $(document).ready(function () {
         $('#updateTitle').val(item.title);
         $('#updateDetails').val(item.details);
         $('#updateIcon').val(item.icon);
-        $('#updateIsproject').prop('checked', item.isproject == 1);
 
         $('#updateTitle').focus();
     }; // End Method
