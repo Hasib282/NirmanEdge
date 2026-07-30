@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Project;
+use App\Models\TeamCategory;
 
 class FrontendController extends Controller
 {
@@ -18,7 +19,8 @@ class FrontendController extends Controller
     
     /////////////////////////// --------------- About start---------- //////////////////////////
     public function About(){
-        return view('user.about');
+        $teamcategory = TeamCategory::with('Team')->get();
+        return view('user.about', compact('teamcategory'));
     } // End Method
     
     

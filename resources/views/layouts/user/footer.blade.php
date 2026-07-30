@@ -2,17 +2,17 @@
     <div class="page-margin">
         <footer class="footer-main">
             <aside>
-                <img src="{{ Storage::url($setting->logo) }}" alt="logo">
+                <a href="{{ route('home') }}"><img src="{{ Storage::url($setting->logo) }}" alt="logo"></a>
                 <p>
                 Where vision meets foundation. Infrastructure, engineered with conviction.
                 </p>
             </aside>
             <nav>
-                <h6>Services</h6>
-                <a>Branding</a>
-                <a>Design</a>
-                <a>Marketing</a>
-                <a>Advertisement</a>
+                <h6>Important Links</h6>
+                <a href="{{ route('about') }}">About</a>
+                <a href="{{ route('services') }}">Services</a>
+                <a href="{{ route('projects') }}">Projects</a>
+                <a href="{{ route('why-us') }}">Why Us</a>
             </nav>
             <nav>
                 <h6>Contact Info</h6>
